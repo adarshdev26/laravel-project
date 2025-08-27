@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('city');
             $table->string('file_path');
+            $table->string('password');
             $table->timestamps();
         });
     }

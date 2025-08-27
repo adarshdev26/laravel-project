@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Registeruser;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
@@ -14,27 +16,51 @@ class UserController extends Controller
             'fullname' => 'required|string|max:225',
             'email' => 'required|email|unique:registerusers,email',
             'city' => 'required|string|max:225',
-            'upload_files' => 'required|mimes:jpg,png,pdf|max:2048',
+            'password' => 'required',
+              'upload_files.*' => 'required|mimes:jpg,png,pdf|max:2048'
         ]);
         
+        
         //get the uploaded file
-        $file = $request->file('upload_files');
-  
-        //get orginial name
-        $originalName = $file->getClientOriginalName();
+        $uploadedFiles = $request->file('upload_files');
+        $filepath = [];
 
-        //store image (inside storage/app/public/uploads)
-        $path = $file->storeAs('uploads', time().'_'.$originalName, 'public');
+        if($uploadedFiles) {
+            foreach($uploadedFiles as $file) {
+                $originalName = $file->getClientOriginalName();
+                $path = $file->storeAs('uploads', time().'_'.$originalName, 'public');
+               $filepath[] = $path;
+            }
+        }
+       
+       $password = $request->password;
+       $hashedPassword = Hash::make($password);
 
         //save to database
         Registeruser::create([
             'fullname' => $request->fullname,
             'email' => $request->email,
             'city' => $request->city,
-            'file_path' => $path,
+            'password' => $hashedPassword,
+            'file_path' => json_encode($filepath),
         ]);
         return back()->with('success', 'User registered successfully');
     }
+
+    // login user
+    public function loginUser(Request $request) 
+    {
+         //validate first
+         $request->validate([
+            'email' => 'required|email|unique:registerusers,email',
+            'password' => 'required',
+        ]);
+
+        echo $request;die;
+        
+    }
+
+
 
     public function allUsers() 
     {
@@ -46,7 +72,11 @@ class UserController extends Controller
     {
        //find the user by id..
        $user = Registeruser::find($id);
-       echo $user;
-
+       if($user) {
+        $user->delete();
+        return back()->with('success', 'User deleted successfully');
+       }
     }
+
+
 }

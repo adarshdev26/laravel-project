@@ -9,5 +9,5 @@ class Registeruser extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['fullname', 'email', 'city', 'file_path'];
+    protected $fillable = ['fullname', 'email', 'city', 'password', 'file_path'];
 }

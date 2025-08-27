@@ -47,13 +47,29 @@
          class="p-2 rounded-2xl m-2"
         />
        </div> 
+       <div class='form-div'>
+        <label>Password</lable>
+        <input 
+        type='password'
+         placeholder='enter your password' 
+         name="password"
+          class="p-2 rounded-2xl m-2"
+         />
+        </div> 
        <div class="form-div p-2">
-       <input type="file" name="upload_files" />
+       <input type="file" name="upload_files[]" multiple />
        </div>
        <div class="p-2 bg-black text-white rounded-2xl">
        <button>Submit</button>
        </div>
     </form>
+  
+</div>
+<div class="text-center">
+  <a href="/login"
+ class="text-center">Already regsiter?
+  <span class="text-blue-400 underline">Login
+    </span></a>
 </div>
 </body>
 </html>
