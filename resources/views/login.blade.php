@@ -16,6 +16,7 @@
   <body class="h-full">
   ```
 -->
+
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="mx-auto h-10 w-auto" />
@@ -24,6 +25,7 @@
   
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form action="loginuser" method="POST" class="space-y-6">
+        @csrf
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-100">Email address</label>
           <div class="mt-2">
@@ -53,6 +55,12 @@
         <a href="/register" class="font-semibold text-indigo-400 hover:text-indigo-300">Please register</a>
       </p>
     </div>
+    @if (session('success'))
+    <p class="text-center mt-3 text-green-500">User exists</p>
+@elseif (session('error'))
+<p class="text-center mt-3 text-red-500">User not exists</p>
+@else
+@endif
   </div>
   
 </body>

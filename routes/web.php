@@ -20,3 +20,7 @@ Route::delete('/users/{id}', [UserController::class, 'deleteUser'])->name('users
 Route::view('/login', 'login');
 Route::post('loginuser', [UserController::class, 'loginUser']);
 
+
+//dashboard route:
+Route::view('/dashboard', 'dashboard');
+

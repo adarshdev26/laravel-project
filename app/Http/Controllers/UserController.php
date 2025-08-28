@@ -52,11 +52,20 @@ class UserController extends Controller
     {
          //validate first
          $request->validate([
-            'email' => 'required|email|unique:registerusers,email',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        echo $request;die;
+       $email = $request->email;
+       $user = Registeruser::where('email', $email)->first();
+       if ($user && Hash::check($request->password, $user->password)) {
+        session(['id' => $user->id]);
+        session(['email' => $user->email]);
+        return redirect('/dashboard');
+       }else{
+        return back()->with('error', 'User not exists');
+      
+       }
         
     }
 
