@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotesController;
 
 Route::get('/', function () {
     return view('home');
@@ -22,5 +23,10 @@ Route::post('loginuser', [UserController::class, 'loginUser']);
 
 
 //dashboard route:
-Route::view('/dashboard', 'dashboard');
+Route::view('/dashboard', './dashboard/dashboard');
+Route::view('/dashboard/teams', './dashboard/teams');
+
+
+//notes route:
+Route::post('createtask', [NotesController::class, 'createTask']);
 
